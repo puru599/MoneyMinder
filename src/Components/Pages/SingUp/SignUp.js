@@ -7,9 +7,11 @@ const SignUp = () => {
   const pswdRef = useRef("");
   const confirmPswdRef = useRef("");
 
-  const history = useHistory();
+  const [emailValid, setEmailValid] = useState(false);
+  const [pswdValid, setPswdValid] = useState(false);
+  const [confirmValid, setConfirmValid] = useState(false);
 
-  const [auth, setAuth] = useState(false);
+  const history = useHistory();
 
   const signUpSubmitHandler = async (event) => {
     event.preventDefault();
@@ -24,7 +26,9 @@ const SignUp = () => {
       pswdValue.length > 5 &&
       confirmPswdValue === pswdValue
     ) {
-      setAuth(false);
+      setEmailValid(false);
+      setPswdValid(false);
+      setConfirmValid(false);
 
       const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAle_pud5CBSRmol4VktTQSBgmBbnu0ZzQ",
@@ -53,7 +57,15 @@ const SignUp = () => {
         alert(data.error.message);
       }
     } else {
-      return setAuth(true);
+      if (!emailValue.includes("@") || !emailValue.includes(".")) {
+        setEmailValid(true);
+      }
+      if (pswdValue.length < 5) {
+        setPswdValid(true);
+      }
+      if (confirmPswdValue !== pswdValue) {
+        setConfirmValid(true);
+      }
     }
   };
   return (
@@ -68,21 +80,23 @@ const SignUp = () => {
           type="text"
           ref={emailRef}
         ></input>
+        {emailValid && <p>Please Enter Valid Email</p>}
         <input
           id="passwordId"
           placeholder="Password"
           type="password"
           ref={pswdRef}
         />
+        {pswdValid && <p>Please Enter Valid Password</p>}
         <input
           id="confirmPwdId"
           placeholder="Confirm Password"
           type="password"
           ref={confirmPswdRef}
         />
+        {confirmValid && <p>Please Match the Password</p>}
       </div>
       <button>Sign Up</button>
-      {auth && <h3>Enter Credentials</h3>}
     </form>
   );
 };
