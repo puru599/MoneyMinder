@@ -1,16 +1,23 @@
 import { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import classes from "./SignUp.module.css";
 
 const SignUp = () => {
   const emailRef = useRef("");
   const pswdRef = useRef("");
   const confirmPswdRef = useRef("");
+
+  const history = useHistory();
+
   const [auth, setAuth] = useState(false);
+
   const signUpSubmitHandler = async (event) => {
     event.preventDefault();
+
     const emailValue = emailRef.current.value;
     const pswdValue = pswdRef.current.value;
     const confirmPswdValue = confirmPswdRef.current.value;
+
     if (
       emailValue.includes("@") &&
       emailValue.includes(".") &&
@@ -18,6 +25,7 @@ const SignUp = () => {
       confirmPswdValue === pswdValue
     ) {
       setAuth(false);
+
       const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAle_pud5CBSRmol4VktTQSBgmBbnu0ZzQ",
         {
@@ -32,12 +40,15 @@ const SignUp = () => {
           },
         }
       );
+
       const data = await response.json();
+
       if (response.ok) {
         console.log(data.email);
         emailRef.current.value = "";
         pswdRef.current.value = "";
         confirmPswdRef.current.value = "";
+        history.replace("/signIn");
       } else {
         alert(data.error.message);
       }
