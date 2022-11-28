@@ -43,7 +43,7 @@ const SignIn = () => {
 
       loginCtx.login(data.email, data.idToken);
 
-      history.replace("/welcome");
+      history.replace("/expenses");
     } else {
       alert(data.error.message);
     }
