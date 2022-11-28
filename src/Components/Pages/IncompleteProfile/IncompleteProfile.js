@@ -1,7 +1,8 @@
-import classes from "./IncompleteProfile.module.css";
+// import classes from "./IncompleteProfile.module.css";
 import React, { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 import LoginContext from "../../Context/LoginContext";
+import Form from "../../Layout/UI/Form";
 
 const IncompleteProfile = () => {
   const [displayNameValue, setDisplayNameValue] = useState("");
@@ -56,7 +57,7 @@ const IncompleteProfile = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       const data = await response.json();
       if (response.ok) {
@@ -72,8 +73,8 @@ const IncompleteProfile = () => {
   return (
     <React.Fragment>
       <h1>Profile Incomplete Page</h1>
-      <form
-        className={classes.IncompleteProfile}
+      <Form
+        // className={classes.IncompleteProfile}
         onSubmit={updateDetailsHandler}
       >
         <h3>Contact Details</h3>
@@ -92,7 +93,7 @@ const IncompleteProfile = () => {
           />
         </div>
         <button>Update Details</button>
-      </form>
+      </Form>
     </React.Fragment>
   );
 };
