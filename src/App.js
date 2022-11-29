@@ -9,6 +9,7 @@ import IncompleteProfile from "./Components/Pages/IncompleteProfile/IncompletePr
 import LoginContext from "./Components/Context/LoginContext";
 import ForgotPassword from "./Components/Pages/ForgotPassword/ForgotPassword";
 import Expenses from "./Components/Pages/Expenses/Expenses";
+import { ExpenseContextProvider } from "./Components/Context/ExpenseContext";
 
 function App() {
   const loginCtx = useContext(LoginContext);
@@ -34,9 +35,11 @@ function App() {
       <Route path="/forgotPassword">
         <ForgotPassword />
       </Route>
-      <Route path="/expenses">
-        {isLoggedIn ? <Expenses /> : <Redirect to="/signIn" />}
-      </Route>
+      <ExpenseContextProvider>
+        <Route path="/expenses">
+          {isLoggedIn ? <Expenses /> : <Redirect to="/signIn" />}
+        </Route>
+      </ExpenseContextProvider>
     </React.Fragment>
   );
 }
