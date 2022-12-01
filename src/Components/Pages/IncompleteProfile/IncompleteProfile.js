@@ -1,7 +1,7 @@
 // import classes from "./IncompleteProfile.module.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import LoginContext from "../../Context/LoginContext";
+import { useSelector } from "react-redux";
 import Form from "../../Layout/UI/Form";
 
 const IncompleteProfile = () => {
@@ -10,7 +10,7 @@ const IncompleteProfile = () => {
   const fullNameRef = useRef("");
   const photoRef = useRef("");
 
-  const loginCtx = useContext(LoginContext);
+  const idToken = useSelector((state) => state.auth.idToken);
 
   const updateDetailsHandler = async (event) => {
     event.preventDefault();
@@ -22,7 +22,7 @@ const IncompleteProfile = () => {
       {
         method: "POST",
         body: JSON.stringify({
-          idToken: loginCtx.idToken,
+          idToken: idToken,
           displayName: fullName,
           photoUrl: photoUrl,
           returnSecureToken: true,
@@ -52,12 +52,12 @@ const IncompleteProfile = () => {
         {
           method: "POST",
           body: JSON.stringify({
-            idToken: loginCtx.idToken,
+            idToken: idToken,
           }),
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       const data = await response.json();
       if (response.ok) {

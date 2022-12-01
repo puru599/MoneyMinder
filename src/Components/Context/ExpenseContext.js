@@ -12,30 +12,7 @@ export const ExpenseContextProvider = (props) => {
   const [expenses, setExpenses] = useState([]);
 
   const addExpenseHandler = (expenses) => {
-    const addExpenseItem = async (expenses) => {
-      try {
-        const response = await fetch(
-          "https://react-expense-tracker-27b38-default-rtdb.firebaseio.com/expenses.json",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              money: expenses.money,
-              description: expenses.description,
-              category: expenses.category,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await response.json();
-
-        getExpenseHandler();
-      } catch (error) {
-        alert(error.message);
-      }
-    };
-    addExpenseItem(expenses);
+    
   };
 
   const getExpenseHandler = () => {

@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import LoginContext from "../../Context/LoginContext";
 import Form from "../../Layout/UI/Form";
+import { AuthActions } from "../../Store/AuthReducer";
 
 const SignIn = () => {
   const emailRef = useRef("");
@@ -10,7 +11,7 @@ const SignIn = () => {
 
   const history = useHistory("");
 
-  const loginCtx = useContext(LoginContext);
+  const dispatch = useDispatch();
 
   const signInSubmitHandler = async (event) => {
     event.preventDefault();
@@ -41,7 +42,7 @@ const SignIn = () => {
       emailRef.current.value = "";
       pswdRef.current.value = "";
 
-      loginCtx.login(data.email, data.idToken);
+      dispatch(AuthActions.login({ email: data.email, idToken: data.idToken }));
 
       history.replace("/expenses");
     } else {
