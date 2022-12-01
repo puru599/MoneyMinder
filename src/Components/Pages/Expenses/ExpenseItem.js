@@ -22,35 +22,6 @@ const ExpenseItem = (props) => {
     }
   };
 
-  // const  = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "https://react-expense-tracker-27b38-default-rtdb.firebaseio.com/expenses.json",
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     let itemsArray = [];
-  //     if (!!data) {
-  //       itemsArray = Object.keys(data).map((expense) => {
-  //         return {
-  //           id: expense,
-  //           money: data[expense].money,
-  //           description: data[expense].description,
-  //           category: data[expense].category,
-  //         };
-  //       });
-  //     }
-  //     dispatch(ExpenseActions.addExpense(itemsArray));
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
   return (
     <ul>
       {expenses.map((expenseItem) => (

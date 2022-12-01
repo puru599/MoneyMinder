@@ -1,15 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Form from "../../Layout/UI/Form";
 import EditForm from "./EditForm";
 import ExpenseItem from "./ExpenseItem";
-import { ExpenseActions } from "../../Store/ExpenseReducer";
+import "./Expenses.css";
 
 const Expenses = (props) => {
   const [editFormState, setEditFormState] = useState(false);
   const [editExpense, setEditExpense] = useState("");
 
-  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
 
   const moneyRef = useRef("");
   const descRef = useRef("");
@@ -69,41 +69,12 @@ const Expenses = (props) => {
     }
   };
 
-  // const getExpenseFetching = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "https://react-expense-tracker-27b38-default-rtdb.firebaseio.com/expenses.json",
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     let itemsArray = [];
-  //     if (!!data) {
-  //       itemsArray = Object.keys(data).map((expense) => {
-  //         return {
-  //           id: expense,
-  //           money: data[expense].money,
-  //           description: data[expense].description,
-  //           category: data[expense].category,
-  //         };
-  //       });
-  //     }
-  //     dispatch(ExpenseActions.addExpense(itemsArray));
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
   useEffect(() => {
     props.getExpenseFetching();
   }, []);
 
   return (
-    <React.Fragment>
+    <div className={`${theme}`}>
       <h2>Expenses Page...</h2>
       <Form onSubmit={addExpenseHandler}>
         <h2>Add Expense</h2>
@@ -137,7 +108,7 @@ const Expenses = (props) => {
           getExpenseFetching={props.getExpenseFetching}
         />
       )}
-    </React.Fragment>
+    </div>
   );
 };
 
