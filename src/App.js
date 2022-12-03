@@ -10,6 +10,7 @@ import ForgotPassword from "./Components/Pages/ForgotPassword/ForgotPassword";
 import Expenses from "./Components/Pages/Expenses/Expenses";
 import { useDispatch, useSelector } from "react-redux";
 import { ExpenseActions } from "./Components/Store/ExpenseReducer";
+import HomePage from "./Components/Pages/HomePage/HomePage";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -81,6 +82,9 @@ function App() {
         ) : (
           <Redirect to="/signIn" />
         )}
+      </Route>
+      <Route path="/" exact>
+        <HomePage />
       </Route>
     </React.Fragment>
   );
