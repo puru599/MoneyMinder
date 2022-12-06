@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import classes from "./App.module.css";
 import SignUp from "./Components/Pages/SingUp/SignUp";
 import Header from "./Components/Layout/Header/Header";
 import { Redirect, Route } from "react-router-dom";
@@ -8,67 +8,37 @@ import Welcome from "./Components/Pages/Welcome/Welcome";
 import IncompleteProfile from "./Components/Pages/IncompleteProfile/IncompleteProfile";
 import ForgotPassword from "./Components/Pages/ForgotPassword/ForgotPassword";
 import Expenses from "./Components/Pages/Expenses/Expenses";
-import { useDispatch, useSelector } from "react-redux";
-import { ExpenseActions } from "./Components/Store/ExpenseReducer";
+import { useSelector } from "react-redux";
 import HomePage from "./Components/Pages/HomePage/HomePage";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
-  const dispatch = useDispatch();
-
-  const getExpenseFetching = async () => {
-    try {
-      const response = await fetch(
-        "https://react-expense-tracker-27b38-default-rtdb.firebaseio.com/expenses.json",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      let itemsArray = [];
-      let expensesAmount;
-      if (!!data) {
-        itemsArray = Object.keys(data).map((expense) => {
-          return {
-            id: expense,
-            money: data[expense].money,
-            description: data[expense].description,
-            category: data[expense].category,
-          };
-        });
-      }
-      expensesAmount = itemsArray.reduce((curNumber, expense) => {
-        return curNumber + Number(expense.money);
-      }, 0);
-      dispatch(
-        ExpenseActions.addExpense({
-          itemsArray: itemsArray,
-          expensesAmount: expensesAmount,
-        })
-      );
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
+  const theme = useSelector((state) => state.theme.theme);
+  console.log(theme);
+  let themeValue;
+  if (theme) {
+    themeValue = classes.AppDark;
+  } else {
+    themeValue = classes.AppLight;
+  }
   return (
-    <React.Fragment>
+    <div className={themeValue}>
       <Header></Header>
-      {/* <Route path="*">
-          <Redirect to="/signIn" />
-        </Route> */}
+      {isLoggedIn && (
+        <Route path="*">
+          <Redirect to="/expenses" />
+        </Route>
+      )}
+      {!isLoggedIn && (
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      )}
       <Route path="/signUp">
         <SignUp />
       </Route>
       <Route path="/signIn">
         <SignIn />
-      </Route>
-      <Route path="/welcome">
-        <Welcome />
       </Route>
       <Route path="/incompleteProfile">
         <IncompleteProfile />
@@ -77,16 +47,15 @@ function App() {
         <ForgotPassword />
       </Route>
       <Route path="/expenses">
-        {isLoggedIn ? (
-          <Expenses getExpenseFetching={getExpenseFetching} />
-        ) : (
-          <Redirect to="/signIn" />
-        )}
+        {isLoggedIn ? <Expenses /> : <Redirect to="/signIn" />}
+      </Route>
+      <Route path="/welcome">
+        {isLoggedIn ? <Welcome /> : <Redirect to="/signIn" />}
       </Route>
       <Route path="/" exact>
         <HomePage />
       </Route>
-    </React.Fragment>
+    </div>
   );
 }
 

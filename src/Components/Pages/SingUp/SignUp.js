@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
+import Button from "../../Layout/UI/Button";
 
 const SignUp = () => {
   const emailRef = useRef("");
@@ -48,10 +49,10 @@ const SignUp = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.email);
         emailRef.current.value = "";
         pswdRef.current.value = "";
         confirmPswdRef.current.value = "";
+
         history.replace("/signIn");
       } else {
         alert(data.error.message);
@@ -96,7 +97,7 @@ const SignUp = () => {
         />
         {confirmValid && <p>Please Match the Password</p>}
       </div>
-      <button>Sign Up</button>
+      <Button>Sign Up</Button>
     </Form>
   );
 };

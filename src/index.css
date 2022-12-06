@@ -7,7 +7,6 @@ html {
   font-family: "Rajdhani", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f1ffe0;
 }
 
 code {
@@ -22,4 +21,6 @@ h4,
 h5,
 h6 {
   text-align: center;
+  color: #2e8b57;
+  font-family: "Rajdhani", sans-serif;
 }

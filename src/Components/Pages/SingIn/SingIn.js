@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
 import { AuthActions } from "../../Store/AuthReducer";
+import Button from "../../Layout/UI/Button";
 
 const SignIn = () => {
   const emailRef = useRef("");
@@ -37,14 +38,12 @@ const SignIn = () => {
     const data = await response.json();
 
     if (response.ok) {
-      console.log(data.email);
-
       emailRef.current.value = "";
       pswdRef.current.value = "";
 
       dispatch(AuthActions.login({ email: data.email, idToken: data.idToken }));
 
-      history.replace("/expenses");
+      history.replace("/welcome");
     } else {
       alert(data.error.message);
     }
@@ -69,7 +68,7 @@ const SignIn = () => {
             ref={pswdRef}
           />
         </div>
-        <button>Sign In</button>
+        <Button>Sign In</Button>
         <Link to="/forgotPassword">Forgot Password?</Link>
       </Form>
     </React.Fragment>

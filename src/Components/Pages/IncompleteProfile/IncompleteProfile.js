@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
+import Button from "../../Layout/UI/Button";
 import Form from "../../Layout/UI/Form";
 
 const IncompleteProfile = () => {
@@ -72,19 +73,17 @@ const IncompleteProfile = () => {
 
   return (
     <React.Fragment>
-      <h1>Profile Incomplete Page</h1>
-      <Form
-        // className={classes.IncompleteProfile}
-        onSubmit={updateDetailsHandler}
-      >
+      <Form onSubmit={updateDetailsHandler}>
         <h3>Contact Details</h3>
         <div>
+          <label>Update Your Profile Name</label>
           <input
             placeholder="Full Name"
             input="text"
             ref={fullNameRef}
             defaultValue={displayNameValue}
           />
+          <label>Update Your Photo</label>
           <input
             placeholder="Profile Photo URL"
             input="text"
@@ -92,7 +91,7 @@ const IncompleteProfile = () => {
             defaultValue={photoUrlValue}
           />
         </div>
-        <button>Update Details</button>
+        <Button>Update Details</Button>
       </Form>
     </React.Fragment>
   );

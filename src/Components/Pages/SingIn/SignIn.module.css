@@ -22,3 +22,10 @@
     display: inline-block;
     border-radius: 2px;
   }
+
+  .signIn a {
+    color: hsl(34deg 100% 50%);
+    text-decoration: none;
+    font-size: larger;
+    padding: 1rem;
+  }
