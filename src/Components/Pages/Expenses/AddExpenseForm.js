@@ -3,7 +3,7 @@ import Form from "../../Layout/UI/Form";
 import classes from "./AddExpenseForm.module.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addExpenseFetching } from "../../Store/ActionCreators/ExpenseActionCreators";
 import Button from "../../Layout/UI/Button";
 
@@ -13,29 +13,38 @@ const Backdrop = (props) => {
 
 const AddExpenseForm = (props) => {
   const id = document.getElementById("EditModalOverlay");
+  const token = useSelector((state) => state.auth.idToken);
 
   const dispatch = useDispatch();
 
   const moneyRef = useRef("");
   const descRef = useRef("");
   const categoryRef = useRef("");
+  const incomeRef = useRef("");
+  const expenseRef = useRef("");
 
   const addExpenseHandler = (event) => {
     event.preventDefault();
+
+    const incomeExpenseRef = incomeRef.current.checked
+      ? incomeRef.current.value
+      : expenseRef.current.value;
+
     const expense = {
       money: moneyRef.current.value,
       description: descRef.current.value,
       category: categoryRef.current.value,
+      incomeExpense: incomeExpenseRef,
+      token: token
     };
+
     dispatch(addExpenseFetching(expense, props.email));
 
     moneyRef.current.value = "";
     descRef.current.value = "";
     categoryRef.current.value = "Food";
 
-    setTimeout(() => {
-      props.onClose();
-    }, 1000);
+    props.onClose();
   };
 
   const Overlay = () => {
@@ -57,9 +66,32 @@ const AddExpenseForm = (props) => {
               <option value="Food">Food</option>
               <option value="Grocery">Grocery</option>
               <option value="Fuel">Fuel</option>
+              <option value="Bills">Bills</option>
+              <option value="Entertainment">Entertainment</option>
               <option value="Other">Other</option>
             </select>
           </div>
+          <fieldset>
+            <input
+              type="radio"
+              id="expenseId"
+              title="expense"
+              name="incomeExpense"
+              value="Expense"
+              ref={expenseRef}
+              defaultChecked
+            />
+            <label htmlFor="expense">Expense</label>
+            <input
+              type="radio"
+              id="incomeId"
+              title="income"
+              name="incomeExpense"
+              value="Income"
+              ref={incomeRef}
+            />
+            <label htmlFor="income">Income</label>
+          </fieldset>
           <Button>Add Expense</Button>
         </Form>
       </div>

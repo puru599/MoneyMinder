@@ -1,60 +1,64 @@
-import React from "react";
-import classes from "./App.module.css";
-import SignUp from "./Components/Pages/SingUp/SignUp";
-import Header from "./Components/Layout/Header/Header";
-import { Redirect, Route } from "react-router-dom";
-import SignIn from "./Components/Pages/SingIn/SingIn";
-import Welcome from "./Components/Pages/Welcome/Welcome";
-import IncompleteProfile from "./Components/Pages/IncompleteProfile/IncompleteProfile";
-import ForgotPassword from "./Components/Pages/ForgotPassword/ForgotPassword";
-import Expenses from "./Components/Pages/Expenses/Expenses";
+import React, { Suspense } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
-import HomePage from "./Components/Pages/HomePage/HomePage";
+import classes from "./App.module.css";
+
+const SignUp = React.lazy(() => import("./Components/Pages/SingUp/SignUp"));
+const Header = React.lazy(() => import("./Components/Layout/Header/Header"));
+const SignIn = React.lazy(() => import("./Components/Pages/SingIn/SingIn"));
+const ForgotPassword = React.lazy(() =>
+  import("./Components/Pages/ForgotPassword/ForgotPassword")
+);
+const Expenses = React.lazy(() =>
+  import("./Components/Pages/Expenses/Expenses")
+);
+const HomePage = React.lazy(() =>
+  import("./Components/Pages/HomePage/HomePage")
+);
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const theme = useSelector((state) => state.theme.theme);
-  console.log(theme);
+
   let themeValue;
   if (theme) {
     themeValue = classes.AppDark;
   } else {
     themeValue = classes.AppLight;
   }
+
   return (
     <div className={themeValue}>
-      <Header></Header>
-      {isLoggedIn && (
-        <Route path="*">
-          <Redirect to="/expenses" />
-        </Route>
-      )}
-      {!isLoggedIn && (
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      )}
-      <Route path="/signUp">
-        <SignUp />
-      </Route>
-      <Route path="/signIn">
-        <SignIn />
-      </Route>
-      <Route path="/incompleteProfile">
-        <IncompleteProfile />
-      </Route>
-      <Route path="/forgotPassword">
-        <ForgotPassword />
-      </Route>
-      <Route path="/expenses">
-        {isLoggedIn ? <Expenses /> : <Redirect to="/signIn" />}
-      </Route>
-      <Route path="/welcome">
-        {isLoggedIn ? <Welcome /> : <Redirect to="/signIn" />}
-      </Route>
-      <Route path="/" exact>
-        <HomePage />
-      </Route>
+      <Suspense>
+        <Header></Header>
+        <Switch>
+          <Route path="/signUp">
+            <SignUp />
+          </Route>
+          <Route path="/signIn">
+            <SignIn />
+          </Route>
+          <Route path="/forgotPassword">
+            <ForgotPassword />
+          </Route>
+          <Route path="/expenses">
+            {isLoggedIn ? <Expenses /> : <Redirect to="/signIn" />}
+          </Route>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+          {isLoggedIn && (
+            <Route path="*">
+              <Redirect to="/expenses" />
+            </Route>
+          )}
+          {!isLoggedIn && (
+            <Route path="*">
+              <Redirect to="/" />
+            </Route>
+          )}
+        </Switch>
+      </Suspense>
     </div>
   );
 }

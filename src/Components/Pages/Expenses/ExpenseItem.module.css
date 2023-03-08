@@ -8,6 +8,11 @@
 .ExpenseItem h2 {
   text-align: left;
   margin-right: 3rem;
+  color: rgb(80, 80, 196);
+}
+
+.ExpenseItem h4 {
+  color: rgb(170, 46, 145);
 }
 
 .ExpenseItem header {
@@ -31,7 +36,48 @@ button.hover {
   background-color: rgb(171, 102, 11);
 }
 
-/* .ButtonItems {
-  position: relative;
-  left: 70%;
-} */
+.headerRight {
+  margin-right: 5%;
+  width: 7%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerRight h2 {
+  margin: 1px;
+}
+
+.headerRight h4 {
+  margin: 1px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.headerLeft h2 {
+  margin: 1px;
+}
+
+.headerLeft h4 {
+  margin: 1px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

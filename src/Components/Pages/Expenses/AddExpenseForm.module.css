@@ -22,3 +22,11 @@
   left: 33%;
   top: 20%;
 }
+
+fieldset {
+  width: 55%;
+  padding: 5px;
+  margin-top: 10px;
+  border: none;
+  display: flex;
+}

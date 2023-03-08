@@ -3,12 +3,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: transparent;
+  background-color: white;
   padding: 0 3%;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%), inset 0 -1px 0 0 #dadce0;
+  height: 60px;
 }
 
 .header h1 {
-  color: #2e8b57;
+  color: hsl(34deg 100% 50%);
+  font-weight: 100;
 }
 
 .header ul {
@@ -33,4 +36,14 @@
 .header button:hover,
 button.hover {
   background-color: rgb(171, 102, 11);
+}
+
+.Logo {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+}
+
+.Logo h1 {
+  color: hsl(34deg 100% 50%);
 }

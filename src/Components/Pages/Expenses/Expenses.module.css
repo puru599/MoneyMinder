@@ -10,7 +10,6 @@
   position: relative;
 }
 
-.AddButton button:hover,
-button.hover {
+.AddButton:hover {
   background-color: rgb(171, 102, 11);
 }

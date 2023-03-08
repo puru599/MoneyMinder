@@ -3,19 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import EditForm from "./EditForm";
 import ExpenseItem from "./ExpenseItem";
 import classes from "./Expenses.module.css";
-import "react-calendar/dist/Calendar.css";
 import {
   deleteExpenseFetching,
-  getExpenseFetching,
+  getExpenseFetching
 } from "../../Store/ActionCreators/ExpenseActionCreators";
 import AddExpenseForm from "./AddExpenseForm";
+import Leaderboard from "./Leaderboard";
 
-const Expenses = (props) => {
+const Expenses = () => {
   const [editFormState, setEditFormState] = useState(false);
   const [addFormState, setAddFormState] = useState(false);
   const [editExpense, setEditExpense] = useState("");
 
   const emailId = useSelector((state) => state.auth.email);
+  const token = useSelector((state) => state.auth.idToken);
+
+  const leaderboardModal = useSelector(
+    (state) => state.expense.leaderboardModal
+  );
+
   const regex = /[.@]/g;
   const email = emailId.replace(regex, "");
 
@@ -27,7 +33,7 @@ const Expenses = (props) => {
       id: id,
       money: money,
       description: description,
-      category: category,
+      category: category
     };
     setEditExpense(expense);
   };
@@ -37,7 +43,7 @@ const Expenses = (props) => {
   };
 
   const deleteExpenseHandler = (id) => {
-    dispatch(deleteExpenseFetching(id, email));
+    dispatch(deleteExpenseFetching(id, email, token));
   };
 
   const onCloseEditStateHandler = () => {
@@ -49,7 +55,7 @@ const Expenses = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getExpenseFetching(email));
+    dispatch(getExpenseFetching(email, token));
   }, [dispatch, email]);
 
   return (
@@ -77,6 +83,7 @@ const Expenses = (props) => {
           email={email}
         />
       )}
+      {leaderboardModal && <Leaderboard />}
     </div>
   );
 };

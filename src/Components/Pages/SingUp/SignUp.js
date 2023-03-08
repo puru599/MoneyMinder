@@ -2,12 +2,15 @@ import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
 import Button from "../../Layout/UI/Button";
+import axios from "axios";
 
 const SignUp = () => {
+  const userNameRef = useRef("");
   const emailRef = useRef("");
   const pswdRef = useRef("");
   const confirmPswdRef = useRef("");
 
+  const [userNameValid, setUserNameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [pswdValid, setPswdValid] = useState(false);
   const [confirmValid, setConfirmValid] = useState(false);
@@ -17,47 +20,52 @@ const SignUp = () => {
   const signUpSubmitHandler = async (event) => {
     event.preventDefault();
 
+    const userNameValue = userNameRef.current.value;
     const emailValue = emailRef.current.value;
     const pswdValue = pswdRef.current.value;
     const confirmPswdValue = confirmPswdRef.current.value;
 
     if (
+      userNameValue.length > 0 &&
       emailValue.includes("@") &&
       emailValue.includes(".") &&
       pswdValue.length > 5 &&
       confirmPswdValue === pswdValue
     ) {
+      setUserNameValid(false);
       setEmailValid(false);
       setPswdValid(false);
       setConfirmValid(false);
 
-      const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAle_pud5CBSRmol4VktTQSBgmBbnu0ZzQ",
+      const userData = {
+        userName: userNameValue,
+        email: emailValue,
+        password: confirmPswdValue,
+        returnSecureToken: true
+      };
+
+      const response = await axios.post(
+        "https://mongo-expense-tracker.onrender.com/signUp",
+        userData,
         {
-          method: "POST",
-          body: JSON.stringify({
-            email: emailValue,
-            password: confirmPswdValue,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "content-type": "application/json" }
         }
       );
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
+        userNameRef.current.value = "";
         emailRef.current.value = "";
         pswdRef.current.value = "";
         confirmPswdRef.current.value = "";
 
         history.replace("/signIn");
       } else {
-        alert(data.error.message);
+        alert(response.response);
       }
     } else {
+      if (userNameValue.length < 1) {
+        setUserNameValid(true);
+      }
       if (!emailValue.includes("@") || !emailValue.includes(".")) {
         setEmailValid(true);
       }
@@ -75,6 +83,13 @@ const SignUp = () => {
         <h3>Sign Up</h3>
       </div>
       <div>
+        <input
+          id="userNameId"
+          placeholder="User Name"
+          type="text"
+          ref={userNameRef}
+        ></input>
+        {userNameValid && <p>Please Enter User Name</p>}
         <input
           id="emailId"
           placeholder="Email"

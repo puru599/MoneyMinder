@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialExpenseState = { expenses: [], expensesAmount: 0 };
+const initialExpenseState = {
+  expenses: [],
+  expensesAmount: 0,
+  leaderboardModal: false,
+  leaderBoard: []
+};
 
 const expenseSlice = createSlice({
   name: "expense",
@@ -10,9 +15,14 @@ const expenseSlice = createSlice({
       state.expenses = action.payload.itemsArray;
       state.expensesAmount = action.payload.expensesAmount;
     },
-    deleteExpense: (state) => {},
-    editExpense: (state) => {},
-  },
+    leaderBoardshow: (state, action) => {
+      state.leaderboardModal = true;
+      state.leaderBoard = action.payload;
+    },
+    leaderBoardDrop: (state) => {
+      state.leaderboardModal = false;
+    }
+  }
 });
 
 export const ExpenseActions = expenseSlice.actions;

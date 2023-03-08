@@ -5,13 +5,12 @@ import { Link, useHistory } from "react-router-dom";
 import Form from "../../Layout/UI/Form";
 import { AuthActions } from "../../Store/AuthReducer";
 import Button from "../../Layout/UI/Button";
+import axios from "axios";
 
 const SignIn = () => {
   const emailRef = useRef("");
   const pswdRef = useRef("");
-
   const history = useHistory("");
-
   const dispatch = useDispatch();
 
   const signInSubmitHandler = async (event) => {
@@ -20,32 +19,37 @@ const SignIn = () => {
     const emailValue = emailRef.current.value;
     const pswdValue = pswdRef.current.value;
 
-    const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAle_pud5CBSRmol4VktTQSBgmBbnu0ZzQ",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: emailValue,
-          password: pswdValue,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const userData = {
+      email: emailValue,
+      password: pswdValue,
+      returnSecureToken: true
+    };
+    try {
+      const response = await axios.post(
+        "https://mongo-expense-tracker.onrender.com/signIn",
+        userData,
+        {
+          headers: { "content-type": "application/json" }
+        }
+      );
+      if (response.status === 201) {
+        emailRef.current.value = "";
+        pswdRef.current.value = "";
+
+        dispatch(
+          AuthActions.login({
+            email: response.data.email,
+            idToken: response.data.idToken,
+            isPremiumUser: response.data.isPremiumUser,
+            userName: response.data.userName
+          })
+        );
+        history.replace("/welcome");
+      } else {
+        throw new Error(response);
       }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      emailRef.current.value = "";
-      pswdRef.current.value = "";
-
-      dispatch(AuthActions.login({ email: data.email, idToken: data.idToken }));
-
-      history.replace("/welcome");
-    } else {
-      alert(data.error.message);
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
   return (

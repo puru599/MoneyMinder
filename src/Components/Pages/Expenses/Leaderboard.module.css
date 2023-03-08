@@ -16,17 +16,26 @@
   max-width: 25rem;
   padding: 1rem;
   text-align: center;
-  background-color: lightblue;
-  display: flex;
+  background-color: rgb(255, 255, 255);
   flex-direction: column;
   left: 33%;
   top: 20%;
 }
 
-fieldset {
-  width: 55%;
-  padding: 5px;
-  margin-top: 10px;
-  border: none;
-  display: flex;
+.Table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.Table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #939393;
+}
+
+.Table td {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
