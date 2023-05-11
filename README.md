@@ -1,4 +1,4 @@
-<h1 align="center">Expense Tracker</h1>
+<h1 align="center">EXPENSE MANAGER</h1>
 
 ![Image alt text](https://raw.githubusercontent.com/SHA43F/Assets/main/Expense%20Manager.png "Bitcoin Genie")
 
