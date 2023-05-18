@@ -1,11 +1,11 @@
-<h1 align="center">EXPENSE MANAGER</h1>
+<h1 align="center">COST WISE</h1>
 
 ![Image alt text](https://raw.githubusercontent.com/SHA43F/Assets/main/Expense%20Manager.png "Bitcoin Genie")
 
 ## Demo [Jump To Live Webpage](https://react-expense-tracker-27b38.web.app)
 
 ## Overview
-An expense tracker web application built with React JS, Node JS, MongoDB, Mongoose, Express JS, CSS, Razorpay payment gateway, JWT, and bcrypt for user authentication and authorization.
+An expense tracking web application built with React JS, Node JS, MongoDB, Mongoose, Express JS, CSS, Razorpay payment gateway, JWT, and bcrypt for user authentication and authorization.
 
 This repository contains an expense tracker application that allows users to create, edit, and delete expenses. The application is built with React JS for the client-side, Node JS and Express JS for the server-side, and MongoDB and Mongoose for the database. 
 
